@@ -5,4 +5,13 @@ class Customer < ApplicationRecord
 
   has_and_belongs_to_many :operations, dependent: :destroy
   attribute :operation_ids, dependent: :destroy
+
+  validates :customer_name, presence: { message: "Customer name required!" }
+  validates :tax_id, length: { maximum: 10 }
+  validates :state_registration, length: { maximum: 12 }
+  validates :fantasy_name, uniqueness: { 
+    message: ->(object, data) do
+    "Fantasy Name '#{data[:value]}' already exists!"
+  end
+  }
 end
