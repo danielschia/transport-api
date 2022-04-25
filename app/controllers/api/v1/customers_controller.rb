@@ -3,9 +3,15 @@ class Api::V1::CustomersController < ApplicationController
 
   # GET /customers
   def index
-    @customers = Customer.all
+    per_page = params[:per_page] ? params[:per_page] : 10
+    @customers = Customer.all.paginate(page: params[:page], per_page: per_page)
 
-    render json: @customers
+    if @customers.length > 1
+      render json: {
+        status: "Success", 
+        message: "Saved successfully",
+        data: @customers,
+
   end
 
   # GET /customers/1
@@ -35,7 +41,10 @@ class Api::V1::CustomersController < ApplicationController
   # PATCH/PUT /customers/1
   def update
     if @customer.update(customer_params)
-      render json: @customer
+      render json: @customer,
+      include: [
+        {operations: { except:[ :created_at, :updated_at]}}
+      ]
     else
       render json: @customer.errors, status: :unprocessable_entity
     end
