@@ -18,7 +18,15 @@ class Api::V1::CustomersController < ApplicationController
     @customer = Customer.new(customer_params)
 
     if @customer.save
-      render json: @customer, status: :created, location: @customer
+      render json: {
+        data: @customer, 
+        status: "Success", 
+        message: "Saved successfully",
+        location: api_v1_customer_url(@customer)
+      },
+      include: [
+        {operations: { except:[ :created_at, :updated_at]}}
+      ]
     else
       render json: @customer.errors, status: :unprocessable_entity
     end
@@ -46,6 +54,6 @@ class Api::V1::CustomersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def customer_params
-      params.require(:customer).permit(:fantasy_name, :customer_name, :tax_id, :status, :state_registration)
+      params.require(:customer).permit(:fantasy_name, :customer_name, :tax_id, :status, :state_registration, operation_ids:[])
     end
 end
