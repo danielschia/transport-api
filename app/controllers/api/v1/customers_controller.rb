@@ -96,6 +96,14 @@ class Api::V1::CustomersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def customer_params
-      params.require(:customer).permit(:fantasy_name, :customer_name, :tax_id, :status, :state_registration, operation_ids:[])
+      params.require(:customer).permit(
+        :fantasy_name, 
+        :customer_name, 
+        :tax_id, :status, 
+        :state_registration, 
+        :facility_id,
+        :contact_id,
+        operation_ids:[]
+      )
     end
 end
