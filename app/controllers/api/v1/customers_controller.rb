@@ -6,7 +6,7 @@ class Api::V1::CustomersController < ApplicationController
     per_page = params[:per_page] ? params[:per_page] : 10
     @customers = Customer.all.paginate(page: params[:page], per_page: per_page)
 
-    if @customers.length > 1
+    if @customers.length >= 1
       render json: {
         status: "Success", 
         message: "Loaded successfully",
