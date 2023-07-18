@@ -4,6 +4,45 @@ info:
   title: API V1
   version: v1
 paths:
+  "/api/v1/contacts":
+    get:
+      summary: list contacts
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create contact
+      responses:
+        '200':
+          description: successful
+  "/api/v1/contacts/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show contact
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update contact
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update contact
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete contact
+      responses:
+        '200':
+          description: successful
   "/api/v1/customers":
     get:
       summary: list customers
@@ -43,8 +82,86 @@ paths:
       responses:
         '200':
           description: successful
+  "/api/v1/facilities":
+    get:
+      summary: list facilities
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create facility
+      responses:
+        '200':
+          description: successful
+  "/api/v1/facilities/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show facility
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update facility
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update facility
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete facility
+      responses:
+        '200':
+          description: successful
+  "/api/v1/operations":
+    get:
+      summary: list operations
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create operation
+      responses:
+        '200':
+          description: successful
+  "/api/v1/operations/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show operation
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update operation
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update operation
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete operation
+      responses:
+        '200':
+          description: successful
 servers:
-- url: https://{defaultHost}
+- url: http://{defaultHost}
   variables:
     defaultHost:
-      default: www.example.com
+      default: localhost:3000
