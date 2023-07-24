@@ -24,7 +24,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
-gem 'will_paginate'
+gem 'kaminari'
 
 gem 'rspec-rails'
 gem 'rswag'
@@ -42,3 +42,16 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem 'activeadmin', github: 'activeadmin/activeadmin', branch: 'master' # FIXME: revert to stable
+
+# Required for ActiveAdmin
+gem 'sass-rails'
+
+# Plus integrations with:
+gem 'devise'
+gem 'cancancan'
+gem 'draper'
+gem 'pundit'
+gem 'formtastic'
+gem 'faker'
