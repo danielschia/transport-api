@@ -7,7 +7,7 @@ class Customer < ApplicationRecord
   attribute :operation_ids, dependent: :destroy
 
   validates :customer_name, presence: { message: "Customer name required!" }
-  validates :tax_id, length: { maximum: 10 }
+  validates :tax_id, length: { maximum: 14 }
   validates :state_registration, length: { maximum: 12 }
   validates :fantasy_name, uniqueness: { 
     message: ->(object, data) do
