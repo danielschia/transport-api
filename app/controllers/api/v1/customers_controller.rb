@@ -4,7 +4,7 @@ class Api::V1::CustomersController < ApplicationController
   # GET /customers
   def index
     per_page = params[:per_page] ? params[:per_page] : 10
-    @customers = Customer.all.paginate(page: params[:page], per_page: per_page)
+    @customers = Customer.all.page(params[:page])
 
     if @customers.length >= 1
       render json: {
