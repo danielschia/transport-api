@@ -6,7 +6,7 @@ ruby '3.2.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 7.0.3.1', '>= 7.0.3.1'
 # Use postgresql as the database for Active Record
-gem "pg", "~> 1.1"
+gem 'pg', '~> 1.1'
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -23,15 +23,15 @@ gem 'puma', '~> 4.1'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-gem 'rack-cors'
 gem 'kaminari'
+gem 'rack-cors'
 
 gem 'rspec-rails'
 gem 'rswag'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
 end
 
 group :development do
@@ -41,7 +41,7 @@ group :development do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'activeadmin', github: 'activeadmin/activeadmin', branch: 'master' # FIXME: revert to stable
 
@@ -49,9 +49,10 @@ gem 'activeadmin', github: 'activeadmin/activeadmin', branch: 'master' # FIXME: 
 gem 'sass-rails'
 
 # Plus integrations with:
-gem 'devise'
 gem 'cancancan'
+gem 'devise'
 gem 'draper'
-gem 'pundit'
-gem 'formtastic'
 gem 'faker'
+gem 'formtastic'
+gem 'pundit'
+gem 'rubocop'

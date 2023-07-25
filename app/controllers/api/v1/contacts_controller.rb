@@ -1,5 +1,5 @@
 class Api::V1::ContactsController < ApplicationController
-  before_action :set_contact, only: [:show, :update, :destroy]
+  before_action :set_contact, only: %i[show update destroy]
 
   # GET /contacts
   def index
@@ -39,13 +39,14 @@ class Api::V1::ContactsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_contact
-      @contact = Contact.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def contact_params
-      params.require(:contact).permit(:description, :email, :telephone01, :telephone02, :main, :customer_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_contact
+    @contact = Contact.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def contact_params
+    params.require(:contact).permit(:description, :email, :telephone01, :telephone02, :main, :customer_id)
+  end
 end

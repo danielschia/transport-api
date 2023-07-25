@@ -1,5 +1,5 @@
 class Api::V1::OperationsController < ApplicationController
-  before_action :set_operation, only: [:show, :update, :destroy]
+  before_action :set_operation, only: %i[show update destroy]
 
   # GET /operations
   def index
@@ -39,13 +39,14 @@ class Api::V1::OperationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_operation
-      @operation = Operation.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def operation_params
-      params.require(:operation).permit(:description)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_operation
+    @operation = Operation.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def operation_params
+    params.require(:operation).permit(:description)
+  end
 end

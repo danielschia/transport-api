@@ -1,5 +1,5 @@
 class Api::V1::FacilitiesController < ApplicationController
-  before_action :set_facility, only: [:show, :update, :destroy]
+  before_action :set_facility, only: %i[show update destroy]
 
   # GET /facilities
   def index
@@ -39,13 +39,14 @@ class Api::V1::FacilitiesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_facility
-      @facility = Facility.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def facility_params
-      params.require(:facility).permit(:cep, :complement, :number, :city, :state, :country, :description, :customer_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_facility
+    @facility = Facility.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def facility_params
+    params.require(:facility).permit(:cep, :complement, :number, :city, :state, :country, :description, :customer_id)
+  end
 end

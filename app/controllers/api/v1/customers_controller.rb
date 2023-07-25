@@ -1,37 +1,37 @@
 class Api::V1::CustomersController < ApplicationController
-  before_action :set_customer, only: [:show, :update, :destroy]
+  before_action :set_customer, only: %i[show update destroy]
 
   # GET /customers
   def index
-    per_page = params[:per_page] ? params[:per_page] : 10
+    per_page = params[:per_page] || 10
     @customers = Customer.all.page(params[:page])
 
     if @customers.length >= 1
       render json: {
-        status: "Success", 
-        message: "Loaded successfully",
-        data: @customers,
-        per_page: per_page.to_i,
-        total_data: @customers.count,
-        current_page: params[:page].to_i ? params[:page].to_i : 0,
-        total_pages: @customers.total_pages
-      },
-      include: [
-        {facilities: { except: [ :created_at, :updated_at ]}},
-        {operations: { except: [ :created_at, :updated_at ]}},
-        {contacts: { except: [ :created_at, :updated_at ]}}
-      ],
-      except: :operation_ids
+               status: 'Success',
+               message: 'Loaded successfully',
+               data: @customers,
+               per_page: per_page.to_i,
+               total_data: @customers.count,
+               current_page: params[:page].to_i || 0,
+               total_pages: @customers.total_pages
+             },
+             include: [
+               { facilities: { except: %i[created_at updated_at] } },
+               { operations: { except: %i[created_at updated_at] } },
+               { contacts: { except: %i[created_at updated_at] } }
+             ],
+             except: :operation_ids
     else
       per_page = 0
       total_pages = 0
-      render json:{
-        status: "Success",
-        message: "There are no customers registered on this page",
+      render json: {
+        status: 'Success',
+        message: 'There are no customers registered on this page',
         data: [],
-        per_page: per_page,
+        per_page:,
         total_data: @customers.count,
-        current_page: params[:page].to_i ? params[:page].to_i : 0,
+        current_page: params[:page].to_i || 0,
         total_pages: @customers.total_pages
       }
     end
@@ -40,16 +40,16 @@ class Api::V1::CustomersController < ApplicationController
   # GET /customers/1
   def show
     render json: {
-      status: "Success", 
-      message: "Loaded successfully",
-      data: @customer
+             status: 'Success',
+             message: 'Loaded successfully',
+             data: @customer
 
-    },
-    include: [
-      {facilities: { except: [ :created_at, :updated_at ]}},
-      {operations: { except: [ :created_at, :updated_at ]}},
-      {contacts: { except: [ :created_at, :updated_at ]}}
-    ]
+           },
+           include: [
+             { facilities: { except: %i[created_at updated_at] } },
+             { operations: { except: %i[created_at updated_at] } },
+             { contacts: { except: %i[created_at updated_at] } }
+           ]
   end
 
   # POST /customers
@@ -58,14 +58,14 @@ class Api::V1::CustomersController < ApplicationController
 
     if @customer.save
       render json: {
-        data: @customer, 
-        status: "Success", 
-        message: "Saved successfully",
-        location: api_v1_customer_url(@customer)
-      },
-      include: [
-        {operations: { except:[ :created_at, :updated_at]}}
-      ]
+               data: @customer,
+               status: 'Success',
+               message: 'Saved successfully',
+               location: api_v1_customer_url(@customer)
+             },
+             include: [
+               { operations: { except: %i[created_at updated_at] } }
+             ]
     else
       render json: @customer.errors, status: :unprocessable_entity
     end
@@ -75,9 +75,9 @@ class Api::V1::CustomersController < ApplicationController
   def update
     if @customer.update(customer_params)
       render json: @customer,
-      include: [
-        {operations: { except:[ :created_at, :updated_at]}}
-      ]
+             include: [
+               { operations: { except: %i[created_at updated_at] } }
+             ]
     else
       render json: @customer.errors, status: :unprocessable_entity
     end
@@ -89,21 +89,22 @@ class Api::V1::CustomersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_customer
-      @customer = Customer.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def customer_params
-      params.require(:customer).permit(
-        :fantasy_name, 
-        :customer_name, 
-        :tax_id, :status, 
-        :state_registration, 
-        :facility_id,
-        :contact_id,
-        operation_ids:[]
-      )
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_customer
+    @customer = Customer.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def customer_params
+    params.require(:customer).permit(
+      :fantasy_name,
+      :customer_name,
+      :tax_id, :status,
+      :state_registration,
+      :facility_id,
+      :contact_id,
+      operation_ids: []
+    )
+  end
 end
