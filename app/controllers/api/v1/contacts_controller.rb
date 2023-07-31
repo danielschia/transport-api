@@ -1,4 +1,5 @@
 class Api::V1::ContactsController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :set_contact, only: %i[show update destroy]
 
   # GET /contacts

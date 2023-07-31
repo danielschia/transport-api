@@ -1,4 +1,5 @@
 class Api::V1::OperationsController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :set_operation, only: %i[show update destroy]
 
   # GET /operations

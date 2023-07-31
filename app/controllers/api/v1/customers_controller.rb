@@ -1,4 +1,5 @@
 class Api::V1::CustomersController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :set_customer, only: %i[show update destroy]
 
   # GET /customers
@@ -7,33 +8,11 @@ class Api::V1::CustomersController < ApplicationController
     @customers = Customer.all.page(params[:page])
 
     if @customers.length >= 1
-      render json: {
-               status: 'Success',
-               message: 'Loaded successfully',
-               data: @customers,
-               per_page: per_page.to_i,
-               total_data: @customers.count,
-               current_page: params[:page].to_i || 0,
-               total_pages: @customers.total_pages
-             },
-             include: [
-               { facilities: { except: %i[created_at updated_at] } },
-               { operations: { except: %i[created_at updated_at] } },
-               { contacts: { except: %i[created_at updated_at] } }
-             ],
-             except: :operation_ids
+      render_index_json(per_page)
     else
       per_page = 0
       total_pages = 0
-      render json: {
-        status: 'Success',
-        message: 'There are no customers registered on this page',
-        data: [],
-        per_page:,
-        total_data: @customers.count,
-        current_page: params[:page].to_i || 0,
-        total_pages: @customers.total_pages
-      }
+      render_empty_index_json(per_page)
     end
   end
 
@@ -55,17 +34,8 @@ class Api::V1::CustomersController < ApplicationController
   # POST /customers
   def create
     @customer = Customer.new(customer_params)
-
     if @customer.save
-      render json: {
-               data: @customer,
-               status: 'Success',
-               message: 'Saved successfully',
-               location: api_v1_customer_url(@customer)
-             },
-             include: [
-               { operations: { except: %i[created_at updated_at] } }
-             ]
+      render_create_customer_json
     else
       render json: @customer.errors, status: :unprocessable_entity
     end
@@ -106,5 +76,47 @@ class Api::V1::CustomersController < ApplicationController
       :contact_id,
       operation_ids: []
     )
+  end
+
+  def render_index_json(per_page)
+    render json: {
+             status: 'Success',
+             message: 'Loaded successfully',
+             data: @customers,
+             per_page: per_page.to_i,
+             total_data: @customers.count,
+             current_page: params[:page].to_i || 0,
+             total_pages: @customers.total_pages
+           },
+           include: [
+             { facilities: { except: %i[created_at updated_at] } },
+             { operations: { except: %i[created_at updated_at] } },
+             { contacts: { except: %i[created_at updated_at] } }
+           ],
+           except: :operation_ids
+  end
+
+  def render_empty_index_json(per_page)
+    render json: {
+      status: 'Success',
+      message: 'There are no customers registered on this page',
+      data: [],
+      per_page:,
+      total_data: @customers.count,
+      current_page: params[:page].to_i || 0,
+      total_pages: @customers.total_pages
+    }
+  end
+
+  def render_create_customer_json
+    render json: {
+             data: @customer,
+             status: 'Success',
+             message: 'Saved successfully',
+             location: api_v1_customer_url(@customer)
+           },
+           include: [
+             { operations: { except: %i[created_at updated_at] } }
+           ]
   end
 end

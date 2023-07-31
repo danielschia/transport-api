@@ -51,9 +51,30 @@ paths:
           description: successful
     post:
       summary: create customer
+      parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fantasy_name:
+                  type: string
+                customer_name:
+                  type: string
+                tax_id:
+                  type: string
+                status:
+                  type: boolean
+                state_registration:
+                  type: string
+              required:
+              - customer_name
+              - tax_id
+              - state_registration
   "/api/v1/customers/{id}":
     parameters:
     - name: id
@@ -63,17 +84,84 @@ paths:
       schema:
         type: string
     get:
-      summary: show customer
+      summary: Retrieves a Customer
       responses:
         '200':
-          description: successful
+          description: blog found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fantasy_name:
+                    type: string
+                  customer_name:
+                    type: string
+                  tax_id:
+                    type: string
+                  status:
+                    type: boolean
+                  state_registration:
+                    type: string
+                required:
+                - id
+                - title
+                - content
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  fantasy_name:
+                    type: string
+                  customer_name:
+                    type: string
+                  tax_id:
+                    type: string
+                  status:
+                    type: boolean
+                  state_registration:
+                    type: string
+                required:
+                - id
+                - title
+                - content
+        '404':
+          description: blog not found
+        '406':
+          description: unsupported accept header
+      tags:
+      - Customers
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
     patch:
       summary: update customer
+      parameters: []
       responses:
         '200':
           description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fantasy_name:
+                  type: string
+                customer_name:
+                  type: string
+                tax_id:
+                  type: string
+                status:
+                  type: boolean
+                state_registration:
+                  type: string
     put:
       summary: update customer
+      parameters: []
       responses:
         '200':
           description: successful

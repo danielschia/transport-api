@@ -1,4 +1,5 @@
 class Api::V1::FacilitiesController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :set_facility, only: %i[show update destroy]
 
   # GET /facilities

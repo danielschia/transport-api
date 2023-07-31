@@ -7,4 +7,12 @@ class Operation < ApplicationRecord
       "Operation '#{data[:value]}' duplicated!"
     end
   }
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[created_at description id updated_at]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    ['customers']
+  end
 end
